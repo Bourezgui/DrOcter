@@ -6,7 +6,7 @@ import com.orm.SugarRecord;
 
 
 
-public class OrdreFabrication extends SugarRecord<OrdreFabrication> {
+public class OrdreFabrication extends SugarRecord<OrdreFabrication>   {
     private String article;
     private String of;
     private String matricule;

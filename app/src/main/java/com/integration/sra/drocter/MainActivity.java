@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String message="Enregistrement Ajouté à la base local avec Succée";
-                java.util.List<OrdreFabrication> listordrer = OrdreFabrication.listAll(OrdreFabrication.class);
+                /*java.util.List<OrdreFabrication> listordrer = OrdreFabrication.listAll(OrdreFabrication.class);
                 for(OrdreFabrication o : listordrer){
                     System.out.println("l'article est "+o.getArticle());System.out.println("flag est "+o.getFlg());}
-
+*/
                 new UploadSoapDataAsynck().execute();
 
             }
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
             progressDialog1.setMessage("Merci de patienter...");
             progressDialog1.setIndeterminate(true);
             progressDialog1.show();
-            int lng=List.getAdapter().getCount();
+            int lng=List.getAdapter()==null?0:List.getAdapter().getCount();
             qty=new String[lng];
             slo=new String[lng];;
             System.out.println(slo);
@@ -311,8 +311,8 @@ public class MainActivity extends AppCompatActivity {
                     s.append((String) obj.get("numliste"));
                 }
             }
-            fabrication =
-            new OrdreFabrication(article.getText().toString()
+
+            fabrication = new OrdreFabrication(article.getText().toString()
                     ,of.getText().toString(),matricule.getText().toString()
                     , palette.getText().toString()
                     ,capacite.getText().toString()
