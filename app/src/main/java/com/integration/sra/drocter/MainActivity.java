@@ -36,6 +36,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -150,8 +151,6 @@ public class MainActivity extends AppCompatActivity {
             add("NUM");
 
         }};
-
-
         new DownloadJSONLISTUNT(
                 "http://196.203.89.113:8077/Sodet2-0.0.1-SNAPSHOT/services/soap_sodet_beta?wsdl"
                 ,"http://connexion/Listof"
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 ,MainActivity.this
                 ,tableofparams2
                 ,"http://connexion"
-                ,new HashMap[]{maps}).execute();
+                ,maps).execute();
 
         of.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -220,13 +219,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        //sELECTION ELEMENT aRTICLE
+
         list_article.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                // ListView Clicked item index
+                @SuppressWarnings({"unchecked"})
                 final HashMap<String, Object> map = (HashMap<String, Object>) list_article.getItemAtPosition(position);
                 String numart=(String) map.get("ART");
                 article.setText(numart);
@@ -234,12 +233,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
         list_of.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // ListView Clicked item index
+                @SuppressWarnings({"unchecked"})
                 final HashMap<String, Object> map = (HashMap<String, Object>) list_of.getItemAtPosition(position);
                 String numart=(String) map.get("NUM");
                 of.setText(numart);
@@ -253,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // ListView Clicked item index
+                @SuppressWarnings({"unchecked"})
                 final HashMap<String, Object> map = (HashMap<String, Object>) list_matricule.getItemAtPosition(position);
                 String numart=(String) map.get("MAT");
                 matricule.setText(numart);
@@ -283,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
              alerte.show();
          }
 
-    class UploadSoapDataAsynck extends AsyncTask<Void, Void, String> {
+     class UploadSoapDataAsynck extends AsyncTask<Void, Void, String> {
         ProgressDialog progressDialog1;
         private String rest;
 
@@ -300,10 +302,11 @@ public class MainActivity extends AppCompatActivity {
             q=new StringBuilder();
             s=new StringBuilder();
             for(int i=0;i<=lng-1;i++){
+                @SuppressWarnings({"unchecked"})
                 HashMap<String, Object> obj = (HashMap<String, Object>) List.getAdapter().getItem(i);
                 if(i<lng-1 & obj.get("numfard") != null){
-                    q.append(obj.get("numfard")+"&");
-                    s.append(obj.get("numliste")+"&");}
+                    q.append(obj.get("numfard&"));
+                    s.append(obj.get("numliste&"));}
                 else if (i==lng-1){
                     q.append((String)obj.get("numfard"));
                     s.append((String) obj.get("numliste"));
@@ -368,8 +371,6 @@ public class MainActivity extends AppCompatActivity {
 
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
                 } catch (Exception e) {
                     fabrication.setFlg(Flag.NotSent);
                 }
@@ -408,8 +409,9 @@ public class MainActivity extends AppCompatActivity {
     public void confirm() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+
         final View mview = getLayoutInflater().inflate(R.layout.alertquantite,null);
-        final Map map=new HashMap<String, String>();
+        final Map<String,String> map=new HashMap<>();
         alertDialogBuilder.setTitle("Ajout Ligne");
         alertDialogBuilder
                 .setView(mview)
