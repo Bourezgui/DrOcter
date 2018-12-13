@@ -59,12 +59,11 @@ public class MainActivity extends AppCompatActivity {
     public EditText searchmatricule,searchof;
     ListView list_article,list_matricule,list_of;
     private EditText recherche;
-    private String[] slo,qty;
     private StringBuilder s,q;
     private ListView listnum;
     private Set<String> tableofparams,tableofparams1,tableofparams2;
     private HashMap<String,String> maps;
-    final ArrayList<Map<String, String>> listItema=new ArrayList<Map<String, String>>();
+    final ArrayList<Map<String, String>> listItema=new ArrayList<>();
     private ListView List ;
 
 
@@ -95,15 +94,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Instantiation des Objet definis au debut de la class
-        recherche=(EditText) findViewById(R.id.recherche);
-        matricule=(AutoCompleteTextView)findViewById(R.id.matricule);
-        article=(AutoCompleteTextView)findViewById(R.id.article);
-        of=(AutoCompleteTextView)findViewById(R.id.of);
-        palette=(AutoCompleteTextView)findViewById(R.id.palette);
-        capacite=(AutoCompleteTextView)findViewById(R.id.capacite);
-        lot=(AutoCompleteTextView)findViewById(R.id.lot);
-        List = (ListView)findViewById(R.id.fard);
-        ajouter=(Button)findViewById(R.id.ajouter);
+        recherche= findViewById(R.id.recherche);
+        matricule=findViewById(R.id.matricule);
+        article=findViewById(R.id.article);
+        of=findViewById(R.id.of);
+        palette=findViewById(R.id.palette);
+        capacite=findViewById(R.id.capacite);
+        lot=findViewById(R.id.lot);
+        List = findViewById(R.id.fard);
+        ajouter=findViewById(R.id.ajouter);
         alerte=new Dialog(MainActivity.this);
         alerte_article=new Dialog(MainActivity.this);
         alert_quantit=new Dialog(MainActivity.this);
@@ -114,14 +113,14 @@ public class MainActivity extends AppCompatActivity {
         //alert_quantit.setContentView(R.layout.alertquantite);
 
         alerte_of.setContentView(R.layout.listart);
-        searcharticle=(EditText) alerte_article.findViewById(R.id.recherche);
-        searchmatricule=(EditText) alerte_matricule.findViewById(R.id.recherche);
-        searchof=(EditText) alerte_of.findViewById(R.id.recherche);
+        searcharticle= alerte_article.findViewById(R.id.recherche);
+        searchmatricule= alerte_matricule.findViewById(R.id.recherche);
+        searchof= alerte_of.findViewById(R.id.recherche);
         alerte.setContentView(R.layout.listnum);
-        list_article=(ListView) alerte_article.findViewById(R.id.list1);
-        list_matricule=(ListView) alerte_matricule.findViewById(R.id.list1);
-        list_of=(ListView) alerte_of.findViewById(R.id.list1);
-        listnum = (ListView)alerte.findViewById(R.id.list);
+        list_article= alerte_article.findViewById(R.id.list1);
+        list_matricule=alerte_matricule.findViewById(R.id.list1);
+        list_of= alerte_of.findViewById(R.id.list1);
+        listnum = alerte.findViewById(R.id.list);
 
         ajouter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 /*java.util.List<OrdreFabrication> listordrer = OrdreFabrication.listAll(OrdreFabrication.class);
                 for(OrdreFabrication o : listordrer){
                     System.out.println("l'article est "+o.getArticle());System.out.println("flag est "+o.getFlg());}
+                    //
 */
                 new UploadSoapDataAsynck().execute();
 
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //fonction a appler
-        maps=new HashMap<String, String>();
+        maps=new HashMap<>();
         tableofparams=new HashSet<String>(){{
             add("DES");add("ART");
         }};
@@ -164,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
                 ,MainActivity.this
                 ,tableofparams2
                 ,"http://connexion"
-                ,maps).execute();
-        //Selectionner of
+                ,new HashMap[]{maps}).execute();
+
         of.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Selectionner Matricule
         new DownloadJSONLISTUNT(
                 "http://196.203.89.113:8077/Sodet2-0.0.1-SNAPSHOT/services/soap_sodet_beta?wsdl"
                 ,"http://connexion/Listmatricule"
@@ -296,16 +295,15 @@ public class MainActivity extends AppCompatActivity {
             progressDialog1.setIndeterminate(true);
             progressDialog1.show();
             int lng=List.getAdapter()==null?0:List.getAdapter().getCount();
-            qty=new String[lng];
-            slo=new String[lng];;
-            System.out.println(slo);
-            System.out.println(qty);
-            q=new StringBuilder();s=new StringBuilder();
+
+
+            q=new StringBuilder();
+            s=new StringBuilder();
             for(int i=0;i<=lng-1;i++){
                 HashMap<String, Object> obj = (HashMap<String, Object>) List.getAdapter().getItem(i);
                 if(i<lng-1 & obj.get("numfard") != null){
-                q.append((String)obj.get("numfard")+"&");
-                s.append((String) obj.get("numliste")+"&");}
+                    q.append(obj.get("numfard")+"&");
+                    s.append(obj.get("numliste")+"&");}
                 else if (i==lng-1){
                     q.append((String)obj.get("numfard"));
                     s.append((String) obj.get("numliste"));
@@ -411,18 +409,15 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         final View mview = getLayoutInflater().inflate(R.layout.alertquantite,null);
-        //EditText editText = new EditText(this);
         final Map map=new HashMap<String, String>();
         alertDialogBuilder.setTitle("Ajout Ligne");
-        // set dialog message
         alertDialogBuilder
-                //.setView(batch)
                 .setView(mview)
                 .setCancelable(false)
                 .setPositiveButton("Ajouter",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
-                        final EditText qanty=(EditText)mview.findViewById(R.id.qty);
-                        final EditText batch=(EditText)mview.findViewById(R.id.Batch);
+                        final EditText qanty=mview.findViewById(R.id.qty);
+                        final EditText batch=mview.findViewById(R.id.Batch);
                         String q=qanty.getText().toString();
                         String j=batch.getText().toString();
                         map.put("numliste",j);
